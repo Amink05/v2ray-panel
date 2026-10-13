@@ -1,422 +1,172 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#080d19">
-  <title>NOVA V2Ray | پنل مدیریت</title>
-
-  <style>
-    :root {
-      --bg: #080d19;
-      --card: #10192b;
-      --border: #22314a;
-      --text: #f1f5f9;
-      --muted: #91a2bb;
-      --blue: #38bdf8;
-      --green: #34d399;
-      --purple: #a78bfa;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: radial-gradient(ellipse at top, #142440, transparent 55%), var(--bg);
-      color: var(--text);
-      font-family: Tahoma, Arial, sans-serif;
-    }
-
-    button, input, select {
-      font: inherit;
-    }
-
-    .container {
-      width: min(1000px, 100%);
-      margin: auto;
-      padding: 20px;
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .logo {
-      display: grid;
-      place-items: center;
-      width: 48px;
-      height: 48px;
-      border-radius: 15px;
-      background: linear-gradient(135deg, #38bdf8, #6366f1);
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    h1 {
-      font-size: 21px;
-      margin: 0 0 5px;
-    }
-
-    h2 {
-      font-size: 18px;
-    }
-
-    .muted {
-      color: var(--muted);
-      line-height: 1.9;
-    }
-
-    .badge {
-      color: var(--green);
-      border: 1px solid #34d39955;
-      background: #34d39912;
-      border-radius: 30px;
-      padding: 9px 13px;
-      font-size: 12px;
-    }
-
-    .hero {
-      padding: 25px;
-      margin-bottom: 18px;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      background: linear-gradient(120deg, #15243b, #101629);
-    }
-
-    .hero h2 {
-      font-size: 23px;
-      margin-bottom: 10px;
-    }
-
-    .hero p {
-      margin-bottom: 0;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-
-    .card {
-      min-width: 0;
-      padding: 20px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: var(--card);
-    }
-
-    .stat-label {
-      color: var(--muted);
-      margin-bottom: 15px;
-      line-height: 1.8;
-    }
-
-    .stat-value {
-      font-size: 25px;
-      font-weight: bold;
-      overflow-wrap: anywhere;
-    }
-
-    .blue { color: var(--blue); }
-    .green { color: var(--green); }
-    .purple { color: var(--purple); }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 15px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: #cbd5e1;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid #34445f;
-      border-radius: 11px;
-      outline: none;
-      background: #080f1e;
-      color: var(--text);
-    }
-
-    input:focus, select:focus {
-      border-color: var(--blue);
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-
-    .btn {
-      cursor: pointer;
-      border: 0;
-      border-radius: 11px;
-      padding: 12px 17px;
-      color: white;
-      background: #26364f;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #0284c7, #4f46e5);
-    }
-
-    .btn:hover {
-      opacity: .88;
-    }
-
-    .output {
-      display: none;
-      margin-top: 18px;
-      padding: 15px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: #080f1e;
-      overflow-wrap: anywhere;
-      line-height: 2;
-      white-space: pre-line;
-    }
-
-    .output.show {
-      display: block;
-    }
-
-    .notice {
-      padding: 14px;
-      margin-top: 18px;
-      border-radius: 12px;
-      background: #fbbf2410;
-      border: 1px solid #fbbf2433;
-      color: #fcd34d;
-      line-height: 2;
-      font-size: 12px;
-    }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 12px;
-      padding: 25px 0 10px;
-    }
-
-    @media (max-width: 700px) {
-      .container {
-        padding: 14px;
-      }
-
-      .grid, .form-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero h2 {
-        font-size: 20px;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <main class="container">
-
-    <header>
-      <div class="brand">
-        <div class="logo">N</div>
-        <div>
-          <h1>NOVA V2Ray</h1>
-          <div class="muted">پنل مدیریت و کنترل پروفایل</div>
-        </div>
-      </div>
-      <div class="badge">● نسخه نمایشی</div>
-    </header>
-
-    <section class="hero">
-      <h2>به پنل NOVA خوش آمدی</h2>
-      <p class="muted">
-        محیط مدیریتی مدرن برای بررسی اطلاعات و ساخت پروفایل آزمایشی.
-      </p>
-    </section>
-
-    <section class="grid" aria-label="آمار پنل">
-      <article class="card">
-        <div class="stat-label">وضعیت رابط کاربری</div>
-        <div class="stat-value green">فعال</div>
-      </article>
-
-      <article class="card">
-        <div class="stat-label">پروفایل‌های ساخته‌شده در این نشست</div>
-        <div class="stat-value blue" id="profileCount">۰</div>
-      </article>
-
-      <article class="card">
-        <div class="stat-label">نسخه</div>
-        <div class="stat-value purple">Demo</div>
-      </article>
-    </section>
-
-    <section class="card">
-      <h2>ساخت پروفایل آزمایشی</h2>
-
-      <form id="profileForm">
-        <div class="form-grid">
-          <div>
-            <label for="username">نام کاربر</label>
-            <input
-              id="username"
-              name="username"
-              type="text"
-              maxlength="40"
-              placeholder="مثلاً Amin"
-              required
-            >
-          </div>
-
-          <div>
-            <label for="duration">مدت اعتبار</label>
-            <select id="duration" name="duration">
-              <option value="7">۷ روز</option>
-              <option value="30">۳۰ روز</option>
-              <option value="90" selected>۹۰ روز</option>
-              <option value="180">۱۸۰ روز</option>
-            </select>
-          </div>
-
-          <div>
-            <label for="plan">نوع پروفایل</label>
-            <select id="plan" name="plan">
-              <option value="معمولی">معمولی</option>
-              <option value="ویژه">ویژه</option>
-              <option value="آزمایشی">آزمایشی</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="actions">
-          <button class="btn btn-primary" type="submit">
-            ساخت پروفایل
-          </button>
-          <button class="btn" type="reset">
-            پاک کردن فرم
-          </button>
-        </div>
-      </form>
-
-      <div id="output" class="output" aria-live="polite"></div>
-
-      <div class="actions">
-        <button id="copyButton" class="btn" type="button" hidden>
-          کپی اطلاعات
-        </button>
-      </div>
-
-      <div class="notice">
-        این نسخه نمایشی است و به سرور واقعی V2Ray متصل نیست.
-        ساخت کانفیگ واقعی، مدیریت کاربران و ذخیره دائمی اطلاعات،
-        به بک‌اند و سرور جداگانه نیاز دارند.
-      </div>
-    </section>
-
-    <footer>NOVA V2Ray · رابط کاربری آزمایشی</footer>
-  </main>
-
-  <script>
-    "use strict";
-
-    const form = document.getElementById("profileForm");
-    const output = document.getElementById("output");
-    const countElement = document.getElementById("profileCount");
-    const copyButton = document.getElementById("copyButton");
-
-    let profileCount = 0;
-    let latestProfile = "";
-
-    const persianNumber = number =>
-      new Intl.NumberFormat("fa-IR").format(number);
-
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
-
-      const username = document.getElementById("username").value.trim();
-      const duration = Number(document.getElementById("duration").value);
-      const plan = document.getElementById("plan").value;
-
-      if (!username) {
-        alert("لطفاً نام کاربر را وارد کن.");
-        return;
-      }
-
-      if (!Number.isInteger(duration) || duration <= 0) {
-        alert("مدت اعتبار معتبر نیست.");
-        return;
-      }
-
-      profileCount++;
-      countElement.textContent = persianNumber(profileCount);
-
-      latestProfile =
-        "نام کاربر: " + username + "\n" +
-        "مدت اعتبار نمایشی: " + duration + " روز\n" +
-        "نوع پروفایل: " + plan + "\n" +
-        "وضعیت: آزمایشی";
-
-      output.textContent = latestProfile;
-      output.classList.add("show");
-      copyButton.hidden = false;
-    });
-
-    form.addEventListener("reset", function () {
-      output.textContent = "";
-      output.classList.remove("show");
-      copyButton.hidden = true;
-      latestProfile = "";
-    });
-
-    copyButton.addEventListener("click", async function () {
-      if (!latestProfile) return;
-
-      try {
-        await navigator.clipboard.writeText(latestProfile);
-        alert("اطلاعات کپی شد.");
-      } catch (error) {
-        const textArea = document.createElement("textarea");
-        textArea.value = latestProfile;
-        textArea.style.position = "fixed";
-        textArea.style.opacity = "0";
-
-        document.body.appendChild(textArea);
-        textArea.select();
-
-        const copied = document.execCommand("copy");
-        textArea.remove();
-
-        alert(
-          copied
-            ? "اطلاعات کپی شد."
-            : "کپی خودکار انجام نشد؛ متن را دستی کپی کن."
-        );
-      }
-    });
-  </script>
-</body>
+<!DOCTYPE html>  <html lang="fa" dir="rtl">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1">  
+<title>NOVA V2Ray</title>  
+<style>  
+*{box-sizing:border-box}  
+body{margin:0;padding:20px;background:#0b1020;color:white;font-family:Arial,sans-serif}  
+.container{max-width:650px;margin:auto}  
+.card{background:#121b30;border:1px solid #263650;border-radius:16px;padding:20px;margin-bottom:18px}  
+h1{color:#54e6c1;text-align:center}  
+label{display:block;margin:15px 0 7px}  
+input,select{width:100%;padding:13px;border-radius:9px;border:1px solid #344563;background:#0b1020;color:white;font-size:16px}  
+button{border:0;border-radius:9px;padding:12px 16px;margin-top:12px;cursor:pointer;font-size:15px;background:#54e6c1;color:#07121d}  
+.secondary{background:#263650;color:white}  
+.danger{background:#b93248;color:white}  
+.output{display:none;white-space:pre-wrap;overflow-wrap:anywhere;line-height:2;background:#0b1020;padding:14px;border-radius:10px;margin-top:15px}  
+.output.show{display:block}  
+.user{padding:12px;margin-top:10px;border:1px solid #263650;border-radius:10px;overflow-wrap:anywhere;line-height:2}  
+small{color:#a9bad1;line-height:2}  
+</style>  
+</head>  
+<body>  
+<main class="container">  
+<section class="card">  
+<h1>NOVA V2Ray</h1>  
+<p style="text-align:center">مدیریت نمایشی کاربران</p>  
+<p>تعداد کاربران ذخیره‌شده: <strong id="profileCount">۰</strong></p>  
+</section>  <section class="card">  
+<h2>ساخت پروفایل کاربر</h2>  
+<form id="profileForm">  
+<label for="username">نام کاربر</label>  
+<input id="username" type="text" placeholder="مثلاً Aminkn05" required>  
+<label for="duration">مدت اعتبار (روز)</label>  
+<input id="duration" type="number" min="1" value="30" required>  
+<label for="plan">نوع پروفایل</label>  
+<select id="plan">  
+<option value="معمولی">معمولی</option>  
+<option value="ویژه">ویژه</option>  
+<option value="VIP">VIP</option>  
+</select>  
+<button type="submit">ذخیره کاربر</button>  
+<button type="reset" class="secondary">پاک کردن فرم</button>  
+</form>  
+<div id="output" class="output"></div>  
+<button id="copyButton" hidden>کپی اطلاعات</button>  
+</section>  <section class="card">  
+<h2>کاربران ذخیره‌شده</h2>  
+<div id="savedProfiles"></div>  
+</section>  <section class="card">  
+<small>این نسخه آزمایشی است. اطلاعات فقط در مرورگر همین دستگاه ذخیره می‌شود. این پنل به سرور واقعی V2Ray متصل نیست و پروفایل اتصال واقعی تولید نمی‌کند.</small>  
+</section>  
+</main>  <script>  
+"use strict";  
+const form=document.getElementById("profileForm");  
+const output=document.getElementById("output");  
+const countElement=document.getElementById("profileCount");  
+const copyButton=document.getElementById("copyButton");  
+const savedProfiles=document.getElementById("savedProfiles");  
+const STORAGE_KEY="nova_saved_profiles";  
+let latestProfile="";  
+  
+function getProfiles(){  
+  try{  
+    const data=JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");  
+    return Array.isArray(data)?data:[];  
+  }catch{return [];}  
+}  
+  
+function saveProfiles(profiles){  
+  try{  
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(profiles));  
+    return true;  
+  }catch{  
+    alert("ذخیره انجام نشد؛ فضای ذخیره‌سازی مرورگر را بررسی کن.");  
+    return false;  
+  }  
+}  
+  
+function updateCount(){  
+  countElement.textContent=new Intl.NumberFormat("fa-IR").format(getProfiles().length);  
+}  
+  
+function showProfiles(){  
+  savedProfiles.replaceChildren();  
+  const profiles=getProfiles();  
+  if(profiles.length===0){  
+    const message=document.createElement("p");  
+    message.textContent="هنوز کاربری ذخیره نشده است.";  
+    savedProfiles.appendChild(message);  
+    return;  
+  }  
+  
+  profiles.forEach(function(profile,index){  
+    const item=document.createElement("div");  
+    item.className="user";  
+  
+    const details=document.createElement("p");  
+    details.textContent="نام کاربر: "+profile.username+  
+      " | اعتبار نمایشی: "+profile.duration+  
+      " روز | نوع: "+profile.plan+" | وضعیت: آزمایشی";  
+  
+    const removeButton=document.createElement("button");  
+    removeButton.className="danger";  
+    removeButton.type="button";  
+    removeButton.textContent="حذف کاربر";  
+  
+    removeButton.addEventListener("click",function(){  
+      if(!confirm("این کاربر حذف شود؟"))return;  
+      const updated=getProfiles();  
+      updated.splice(index,1);  
+      if(saveProfiles(updated)){  
+        updateCount();  
+        showProfiles();  
+      }  
+    });  
+  
+    item.append(details,removeButton);  
+    savedProfiles.appendChild(item);  
+  });  
+}  
+  
+form.addEventListener("submit",function(event){  
+  event.preventDefault();  
+  const username=document.getElementById("username").value.trim();  
+  const duration=Number(document.getElementById("duration").value);  
+  const plan=document.getElementById("plan").value;  
+  
+  if(!username){alert("نام کاربر را وارد کن.");return;}  
+  if(!Number.isInteger(duration)||duration<=0){  
+    alert("مدت اعتبار معتبر نیست.");return;  
+  }  
+  
+  const profiles=getProfiles();  
+  const profile={username,duration,plan};  
+  profiles.push(profile);  
+  
+  if(!saveProfiles(profiles))return;  
+  
+  latestProfile="نام کاربر: "+username+  
+    "\nمدت اعتبار نمایشی: "+duration+  
+    " روز\nنوع پروفایل: "+plan+"\nوضعیت: آزمایشی";  
+  
+  output.textContent=latestProfile;  
+  output.classList.add("show");  
+  copyButton.hidden=false;  
+  updateCount();  
+  showProfiles();  
+  alert("اطلاعات در همین مرورگر ذخیره شد.");  
+});  
+  
+form.addEventListener("reset",function(){  
+  output.textContent="";  
+  output.classList.remove("show");  
+  copyButton.hidden=true;  
+  latestProfile="";  
+});  
+  
+copyButton.addEventListener("click",async function(){  
+  if(!latestProfile)return;  
+  try{  
+    await navigator.clipboard.writeText(latestProfile);  
+    alert("اطلاعات کپی شد.");  
+  }catch{  
+    alert("کپی خودکار انجام نشد؛ اطلاعات را دستی کپی کن.");  
+  }  
+});  
+  
+updateCount();  
+showProfiles();  
+</script>  </body>  
 </html>
