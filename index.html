@@ -1,1 +1,61 @@
-
+<!DOCTYPE html><html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova V2Ray</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b1020;color:#fff;font-family:Arial,sans-serif;padding:20px}
+.container{max-width:650px;margin:auto}
+header{text-align:center;padding:25px 0}
+h1{color:#38bdf8;margin-bottom:8px}
+.card{background:#151d32;border:1px solid #283650;border-radius:16px;padding:20px;margin:15px 0}
+label{display:block;margin:15px 0 8px}
+input,select,textarea,button{width:100%;padding:13px;border-radius:9px;border:1px solid #34445f;background:#0b1224;color:white;font-size:15px}
+button{background:#0284c7;border:0;font-weight:bold;margin-top:12px;cursor:pointer}
+button:active{opacity:.8}
+.note{color:#a5b4fc;font-size:13px;line-height:1.8}
+.status{color:#4ade80}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>Nova V2Ray</h1>
+<p>پنل مدیریت کانفیگ‌ها</p>
+<p class="status">● پنل آنلاین است</p>
+</header>
+<div class="card">
+<h3>ساخت کانفیگ نمایشی</h3>
+<label>نام کاربر</label>
+<input id="username" placeholder="نام کاربری را وارد کن">
+<label>مدت اعتبار</label>
+<select id="days">
+<option value="7">۷ روز</option>
+<option value="30">۳۰ روز</option>
+<option value="90">۹۰ روز</option>
+</select>
+<button onclick="createConfig()">ساخت کانفیگ آزمایشی</button>
+<label>نتیجه</label>
+<textarea id="result" rows="4" placeholder="نتیجه اینجا نمایش داده می‌شود"></textarea>
+<button onclick="copyResult()">کپی نتیجه</button>
+<p class="note">این نسخه نمایشی است و به سرور واقعی V2Ray متصل نیست.</p>
+</div>
+</div>
+<script>
+function createConfig(){
+const name=document.getElementById('username').value.trim();
+const days=document.getElementById('days').value;
+if(!name){alert('لطفاً نام کاربری را وارد کن');return;}
+document.getElementById('result').value='کاربر: '+name+'\nاعتبار نمایشی: '+days+' روز\nوضعیت: آزمایشی';
+}
+function copyResult(){
+const result=document.getElementById('result');
+if(!result.value){alert('اول نتیجه را بساز');return;}
+result.select();
+if(navigator.clipboard){navigator.clipboard.writeText(result.value).then(()=>alert('کپی شد'));}
+else{document.execCommand('copy');alert('کپی شد');}
+}
+</script>
+</body>
+  </html>
